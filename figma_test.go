@@ -7,13 +7,14 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/tmc/figma/nodes"
 )
 
 var (
 	justCanvas = `{
   "name": "Personal",
   "lastModified": "2018-07-03T09:05:44.608Z",
-  "thumbnailUrl": "https://s3-alpha.com/thumbnails/91a7557d-5625-4f76-9459-70818298599f",
+  "thumbnailUrl": "",
   "document": {
     "id": "0:0",
     "name": "Document",
@@ -30,14 +31,6 @@ var (
           "a": 1
         },
         "exportSettings": [
-          {
-            "suffix": "x",
-            "format": "PNG",
-            "constraint": {
-              "type": "SCALE",
-              "value": 1.5
-            }
-          },
           {
             "suffix": "",
             "format": "PNG",
@@ -71,7 +64,7 @@ func TestDocumentDecoding(t *testing.T) {
 		in           string
 		expectedType interface{}
 	}{
-		{"canvas", justCanvas, &CanvasNode{}},
+		{"canvas", justCanvas, &nodes.Canvas{}},
 	}
 
 	for _, tt := range cases {

@@ -10,6 +10,7 @@ import (
 	"net/url"
 
 	"github.com/pkg/errors"
+	"github.com/tmc/figma/figmatypes"
 )
 
 const defaultBaseURL = "https://api.figma.com/v1/"
@@ -84,22 +85,16 @@ func (c *Client) do(method string, body io.Reader, pattern string, args ...inter
 	return buf, nil
 }
 
-type filesForProject struct {
-	Files []FileMeta `json:"files,omitempty"`
-}
-
 // GetFilesForProject returns a list of FileMetas for a given project id.
 func (c *Client) GetFilesForProject(projectID string) ([]FileMeta, error) {
 	b, err := c.get("projects/%s/files", projectID)
 	if err != nil {
 		return nil, err
 	}
-	result := &filesForProject{}
+	result := &struct {
+		Files []FileMeta `json:"files,omitempty"`
+	}{}
 	return result.Files, json.Unmarshal(b, result)
-}
-
-type projectsForTeam struct {
-	Projects []Project `json:"projects,omitempty"`
 }
 
 // GetProjectsForTeam returns a list of Projects given a team id.
@@ -108,7 +103,10 @@ func (c *Client) GetProjectsForTeam(teamID string) ([]Project, error) {
 	if err != nil {
 		return nil, err
 	}
-	result := &projectsForTeam{}
+	result := &struct {
+		Projects []Project `json:"projects,omitempty"`
+	}{}
+
 	return result.Projects, json.Unmarshal(b, result)
 }
 
@@ -236,7 +234,7 @@ type CreateCommentOptions struct {
 	// The text contents of the comment to post.
 	Message string `json:"message"`
 	// The position of where to place the comment. This can either be an absolute canvas position or the relative position within a frame..
-	ClientMeta VectorOrFrameOffset `json:"client_meta"`
+	ClientMeta figmatypes.VectorOrFrameOffset `json:"client_meta"`
 }
 
 // CreateFileComment creates a comment on a file.

@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/tmc/figma"
+	"github.com/tmc/figma/figmatypes"
 )
 
 func ExampleNewClient() {
@@ -33,7 +34,7 @@ func ExampleClient_GetFile() {
 func ExampleClient_GetImage() {
 	c, _ := figma.NewClient(os.Getenv("FIGMA_TOKEN"))
 	i, _ := c.GetImage(os.Getenv("FIGMA_FILE_ID"), figma.ImageOptions{
-		IDs:    figma.DefaultID,
+		IDs:    "0:0",
 		Format: "png",
 		Scale:  1.0,
 	})
@@ -61,9 +62,9 @@ func ExampleClient_CreateFileComment() {
 	file, _ := c.GetFile(os.Getenv("FIGMA_FILE_ID"))
 	comment, err := c.CreateFileComment(os.Getenv("FIGMA_FILE_ID"), figma.CreateCommentOptions{
 		Message: "Beep Boop! I am a bot! Can you make it pop more? 🤖",
-		ClientMeta: figma.VectorOrFrameOffset{
+		ClientMeta: figmatypes.VectorOrFrameOffset{
 			NodeID:     file.Document.Children[0].GetID(),
-			NodeOffset: &figma.Vector{X: 0, Y: 0},
+			NodeOffset: &figmatypes.Vector{X: 0, Y: 0},
 		},
 	})
 	_, _ = comment, err
