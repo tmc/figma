@@ -25,6 +25,34 @@ type FileMeta struct {
 	ThumbnailURL string `json:"thumbnail_url,omitempty"`
 }
 
+// ImageFormat encodes the possible values for an image.
+type ImageFormat string
+
+const (
+	// ImageFormatJPG specifies a JPEG image.
+	ImageFormatJPG ImageFormat = "jpg"
+	// ImageFormatPNG specifies a PNG image.
+	ImageFormatPNG = "png"
+	// ImageFormatSVG specifies an SVG image.
+	ImageFormatSVG = "svg"
+)
+
+// ImageOptions allows configuration of the Get Image request.
+type ImageOptions struct {
+	// A comma separated list of node IDs to render.
+	IDs string `json:"ids"`
+	// A number between 0.01 and 4, the image scaling factor.
+	Scale float64 `json:"scale"`
+	// A string enum for the image output format, can be "jpg", "png", or "svg".
+	Format string `json:"format"`
+	// Whether to include id attributes for all SVG elements. Default: false.
+	SVGIncludeID bool `json:"svg_include_id,omitempty"`
+	// Whether to skip simplifying inside/outside strokes and use stroke attribute if possible instead of <mask>. Default: false.
+	SkipSVGSimplifyStroke bool `json:"svg_simplify_stroke,omitempty"`
+	// A specific version ID to use. Omitting this will use the current version of the file.
+	Version string `json:"version,omitempty"`
+}
+
 // Image is the response to generating an image.
 type Image struct {
 	Status float64           `json:"status,omitempty"`

@@ -149,31 +149,6 @@ func (c *Client) getFileWithOptions(fileKey string, opts FileOptions) ([]byte, e
 	return c.get("files/%s?%s", fileKey, o.Encode())
 }
 
-// ImageFormat encodes the possible values for an image.
-type ImageFormat string
-
-const (
-	ImageFormatJPG ImageFormat = "jpg"
-	ImageFormatPNG             = "png"
-	ImageFormatSVG             = "svg"
-)
-
-// ImageOptions allows configuration of the Get Image request.
-type ImageOptions struct {
-	// A comma separated list of node IDs to render.
-	IDs string `json:"ids"`
-	// A number between 0.01 and 4, the image scaling factor.
-	Scale float64 `json:"scale"`
-	// A string enum for the image output format, can be "jpg", "png", or "svg".
-	Format string `json:"format"`
-	// Whether to include id attributes for all SVG elements. Default: false.
-	SVGIncludeID bool `json:"svg_include_id,omitempty"`
-	// Whether to skip simplifying inside/outside strokes and use stroke attribute if possible instead of <mask>. Default: false.
-	SkipSVGSimplifyStroke bool `json:"svg_simplify_stroke,omitempty"`
-	// A specific version ID to use. Omitting this will use the current version of the file.
-	Version string `json:"version,omitempty"`
-}
-
 // GetImage gets an image from the Figma API.
 func (c *Client) GetImage(fileKey string, opts ImageOptions) (*Image, error) {
 	b, err := c.getImage(fileKey, opts)
