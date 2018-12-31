@@ -5,7 +5,7 @@ import "net/http"
 // ClientOption allows customization of Clients.
 type ClientOption func(*Client)
 
-// WithBaseURL allows configuration on of a custom base URL.
+// WithBaseURL allows configuration of a custom base URL.
 func WithBaseURL(baseURL string) ClientOption {
 	return func(c *Client) {
 		c.baseURL = baseURL
